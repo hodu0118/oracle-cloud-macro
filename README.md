@@ -4,10 +4,11 @@
 
 # 이 프로젝트는?
 
-Oracle Cloud는 Always Free(상시 무료) 티어를 제공합니다. 
+Oracle Cloud는 Always Free(상시 무료) 티어를 제공한다.
+
 Oracle이 제공하는 Ampere A1 인스턴스는 전 세계적으로 경쟁이 치열하기에
 해당 인스턴스를 자동으로 확보하기 위한 스크립트와,
-인스턴스 정지 후 자원이 회수되는경우 다시 할당하는 2개의 스크립트를 담고있습니다.
+인스턴스 정지 후 자원이 회수되는경우 다시 할당하는 2개의 스크립트를 담았다.
 
 ---
 
@@ -21,13 +22,13 @@ Oracle이 제공하는 Ampere A1 인스턴스는 전 세계적으로 경쟁이 �
 | 기간   | **영구 무료**      | **영구 무료**       |
 | 개수   | 총량 내에서 쪼개기 가능 | VM 최대 2개      |
 
-> ※ A1의 2 OCPU / 12 GB는 계정 전체에 할당되는 **총량**이며, 이 한도 내에서 여러 인스턴스로 나눠 사용할 수 있습니다.
+> ※ A1의 2 OCPU / 12 GB는 계정 전체에 할당되는 **총량**이며, 이 한도 내에서 여러 인스턴스로 나눠 사용할 수 있다.
 
-> ※ 블록 볼륨은 계정당 200GB까지 무료로, 여러 인스턴스에 나눠서 사용 가능합니다.
+> ※ 블록 볼륨은 계정당 200GB까지 무료로, 여러 인스턴스에 나눠서 사용 가능하다.
 
 > ※ 무료 티어 사양·정책은 Oracle 정책에 따라 변경될 수 있으니, 최신 사양은 [공식 문서](https://www.oracle.com/cloud/free/) 참고
 
-> ※ 2026년 6월, Always Free 정책 변경으로 4 OCPU, 24 Memory -> 2 OCPU, 12 Memory 로 변경되었습니다.
+> ※ 2026년 6월, Always Free 정책 변경으로 4 OCPU, 24 Memory -> 2 OCPU, 12 Memory 로 변경되었다.
 
 ---
 
@@ -48,13 +49,13 @@ Oracle이 제공하는 Ampere A1 인스턴스는 전 세계적으로 경쟁이 �
 
 ### Step 1: OCI CLI 설치
 
-설치 스크립트를 실행합니다.
+설치 스크립트를 실행한다.
 
 ```bash
 curl -L https://raw.githubusercontent.com/oracle/oci-cli/master/scripts/install/install.sh | bash
 ```
 
-설치 후 `oci setup config` 마법사가 묻는 항목을 순서대로 입력합니다. (이 단계를 건너뛰고 나중에 직접 config 파일을 작성해도 됩니다.)
+설치 후 `oci setup config` 마법사가 묻는 항목을 순서대로 입력한다. (이 단계를 건너뛰고 나중에 직접 config 파일을 작성해도 된다.)
 
 1. **Enter a location for your config**: 그냥 엔터 (기본값 `~/.oci/config`)
 2. **Enter a user OCID**: 웹 콘솔 [프로필] → [사용자 설정]에서 확인한 `ocid1.user.oc1...`
@@ -65,21 +66,21 @@ curl -L https://raw.githubusercontent.com/oracle/oci-cli/master/scripts/install/
 7. **Enter a name for your key** `[oci_api_key]`: 그냥 엔터 (기본값)
 8. **Enter a passphrase for your private key (press enter for no passphrase)**: 그냥 엔터 (passphrase 없음 — 매크로 자동 실행 시 편함)
 
-설정이 끝나면 터미널에 공개 키가 저장된 경로(보통 `~/.oci/oci_api_key_public.pem`)가 출력됩니다. 해당 키의 내용을 출력합니다.
+설정이 끝나면 터미널에 공개 키가 저장된 경로(보통 `~/.oci/oci_api_key_public.pem`)가 출력된다. 
 
+
+아래 명령어로 해당 키의 내용을 출력하여...
 ```bash
 cat ~/.oci/oci_api_key_public.pem
 ```
 
-화면에 나오는 `-----BEGIN PUBLIC KEY-----`부터 `-----END PUBLIC KEY-----`까지 전체 내용을 복사합니다.
-
-이후 웹 콘솔에서 등록합니다.
+화면에 나오는 `-----BEGIN PUBLIC KEY-----`부터 `-----END PUBLIC KEY-----`까지 전체 내용을 복사하여 웹 콘솔에서 등록한다.
 
 1. 웹 콘솔 → [프로필] → [사용자 설정] → 왼쪽 아래 [API 키] 메뉴 클릭
 2. [API 키 추가] → [공개 키 붙여넣기] 선택
 3. 복사한 내용을 붙여넣고 추가
 
-터미널이 `oci` 명령어를 인식하도록 환경 변수를 새로고침하고 설치를 확인합니다.
+터미널이 `oci` 명령어를 인식하도록 환경 변수를 새로고침하고 설치를 확인한다.
 
 ```bash
 source ~/.bashrc
@@ -112,16 +113,16 @@ vi ./oci-create.sh
 
 ### Step 3: SSH 키 생성
 
-로컬 PC에서 SSH 키 쌍(개인 키 + 공개 키)을 생성합니다.
+로컬 PC에서 SSH 키 쌍(개인 키 + 공개 키)을 생성한다.
 
 ```bash
 ssh-keygen -t rsa -b 4096 -m PEM -f ./my_oracle_vm_key
 ```
 
 - 비밀번호 입력창이 나오면 그냥 엔터
-- 비밀번호를 설정하면 보안이 강화되지만, 키 사용 시마다 입력해야 하므로 자동화에는 권장하지 않습니다.
+- 비밀번호를 설정하면 보안이 강화되지만, 키 사용 시마다 입력해야 하므로 자동화에는 권장하지 않는다.
 
-위 명령으로 개인 키 `my_oracle_vm_key`와 공개 키 `my_oracle_vm_key.pub`가 생성됩니다. Step 2의 `SSH_KEY_FILE`에는 공개 키(`.pub`) 경로를 지정합니다.
+위 명령으로 개인 키 `my_oracle_vm_key`와 공개 키 `my_oracle_vm_key.pub`가 생성된다.. Step 2의 `SSH_KEY_FILE`에는 공개 키(`.pub`) 경로를 지정한다.
 
 ---
 
@@ -377,7 +378,7 @@ tail -f ./oci-start.log
 
 <details>
 <summary>Gitbook</summary>
-본 GitBook 문서는 인스턴스를 자동으로 확보하기 위한 스크립트를 제작해 인스턴스를 확보하고, SSH 키를 분실했을 때 배스천(Bastion)을 이용해 새 키를 주입하며, 인스턴스 정지 후 자원이 회수되어 다시 할당하기까지의 과정을 담았습니다.
+본 GitBook 문서는 인스턴스를 자동으로 확보하기 위한 스크립트를 제작해 인스턴스를 확보하고, SSH 키를 분실했을 때 배스천(Bastion)을 이용해 새 키를 주입하며, 인스턴스 정지 후 자원이 회수되어 다시 할당하기까지의 과정을 담았다.
 
 This GitBook documentation covers the entire process: securing an instance with an automated script, injecting a new SSH key via Bastion if the original is lost, and reallocating resources after an instance is stopped and reclaimed.
 
