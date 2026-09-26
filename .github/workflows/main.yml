@@ -33,5 +33,7 @@ jobs:
           OCI_SSH_PUBLIC_KEY: ${{ secrets.OCI_SSH_PUBLIC_KEY }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
-          # 개발자님의 메인 스크립트 파일명을 실행합니다. (일반적으로 main.py)
-          python script.py
+ # 기존의 맨 아랫줄 'run: |' 부분을 아래 내용으로 통째로 덮어쓰기 하세요!
+        run: |
+          chmod +x ./script/oci-create.sh
+          ./script/oci-create.sh
