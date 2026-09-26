@@ -1,9 +1,9 @@
 name: Oracle Cloud Auto Create
 
 on:
-  workflow_dispatch: # 수동으로 시작 버튼 누를 수 있게 함
+  workflow_dispatch:
   schedule:
-    - cron: '0 */3 * * *' # 3시간마다 자동으로 매크로가 실행됨
+    - cron: '0 */3 * * *'
 
 jobs:
   build:
@@ -12,18 +12,8 @@ jobs:
       - name: Checkout Source Code
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'
-
-      - name: Install Dependencies
-        run: |
-          pip install oci pytz requests
-
       - name: Run Macro Script
         env:
-          # 아까 우리가 저장한 금고(Secrets) 데이터들을 파이썬 프로그램에 연결하는 과정입니다.
           OCI_USER: ${{ secrets.OCI_USER }}
           OCI_TENANCY: ${{ secrets.OCI_TENANCY }}
           OCI_FINGERPRINT: ${{ secrets.OCI_FINGERPRINT }}
@@ -32,8 +22,6 @@ jobs:
           OCI_COMPARTMENT_ID: ${{ secrets.OCI_COMPARTMENT_ID }}
           OCI_SSH_PUBLIC_KEY: ${{ secrets.OCI_SSH_PUBLIC_KEY }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-        run: |
- # 기존의 맨 아랫줄 'run: |' 부분을 아래 내용으로 통째로 덮어쓰기 하세요!
         run: |
           chmod +x ./script/oci-create.sh
           ./script/oci-create.sh
