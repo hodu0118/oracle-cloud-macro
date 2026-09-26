@@ -34,4 +34,4 @@ jobs:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
           # 개발자님의 메인 스크립트 파일명을 실행합니다. (일반적으로 main.py)
-          python main.py
+          python script.py
